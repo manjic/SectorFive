@@ -2,6 +2,7 @@ require 'gosu'
 require_relative 'player'
 require_relative 'enemy'
 require_relative 'bullet'
+require_relative 'explosion'
 
 class SectorFive < Gosu::Window
 
@@ -15,6 +16,7 @@ class SectorFive < Gosu::Window
     @player = Player.new(self) 
     @enemies = [] 
     @bullets= [] 
+    @explosions = []
   end 
 
   def draw 
@@ -24,6 +26,9 @@ class SectorFive < Gosu::Window
     end
     @bullets.each do |bullet|
       bullet.draw
+    end
+    @explosions.each do |explosion|
+      explosion.draw
     end
   end
 
@@ -47,6 +52,7 @@ class SectorFive < Gosu::Window
           if distance < enemy.radius + bullet.radius
             @enemies.delete enemy
             @bullets.delete bullet
+            @explosions.push Explosion.new(self, enemy.x, enemy.y)
           end
         end
     end
